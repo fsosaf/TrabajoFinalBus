@@ -76,5 +76,11 @@ public class Pasajero {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    @Override
+    public String toString() {
+        return "Pasajero{" + "id_pasajero: " + id_pasajero + ", nombre: " + nombre + ", apellido: " + apellido + ", dni: " + dni + ", correo: " + correo + ", telefono: " + telefono + '}';
+    }
+    
     
 }
