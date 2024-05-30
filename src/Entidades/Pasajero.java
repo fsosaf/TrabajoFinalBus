@@ -1,8 +1,7 @@
-
-package trabajofinalbus.Entidades;
-
+package Entidades;
 
 public class Pasajero {
+
     private int id_pasajero;
     private String nombre;
     private String apellido;
@@ -10,16 +9,17 @@ public class Pasajero {
     private String correo;
     private String telefono;
 
-    public Pasajero(){
+    public Pasajero() {
     }
-    public Pasajero( String nombre, String apellido, String dni, String correo, String telefono) {
+
+    public Pasajero(String nombre, String apellido, String dni, String correo, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.correo = correo;
         this.telefono = telefono;
     }
-    
+
     public Pasajero(int id_pasajero, String nombre, String apellido, String dni, String correo, String telefono) {
         this.id_pasajero = id_pasajero;
         this.nombre = nombre;
@@ -79,8 +79,8 @@ public class Pasajero {
 
     @Override
     public String toString() {
-        return "Pasajero{" + "id_pasajero: " + id_pasajero + ", nombre: " + nombre + ", apellido: " + apellido + ", dni: " + dni + ", correo: " + correo + ", telefono: " + telefono + '}';
+        return "Pasajero {" + "id_pasajero: " + id_pasajero + ", nombre: " + nombre + ", apellido: " + apellido + ", dni: " + dni + ", correo: " + correo + ", telefono: " + telefono + "}\n";
+
     }
-    
-    
+
 }

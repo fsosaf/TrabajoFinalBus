@@ -1,27 +1,29 @@
+package Entidades;
 
-package trabajofinalbus.Entidades;
+import java.sql.Time;
 
-import java.time.LocalDate;
+public class Ruta {
 
-
-class Ruta {
     private int id_ruta;
     private String origen;
     private String destino;
-    private LocalDate duracion_estimada;
+    private Time duracion_estimada;
 
-    public Ruta(){}
-    public Ruta(int id_ruta, String origen, String destino, LocalDate duracion_estimada) {
+    public Ruta() {
+    }
+
+    public Ruta(int id_ruta, String origen, String destino, Time duracion_estimada) {
         this.id_ruta = id_ruta;
         this.origen = origen;
         this.destino = destino;
         this.duracion_estimada = duracion_estimada;
     }
-    public Ruta( String origen, String destino, LocalDate duracion_estimada) {
+
+    public Ruta(String origen, String destino) {
         this.origen = origen;
         this.destino = destino;
-        this.duracion_estimada = duracion_estimada;
     }
+
     public int getId_ruta() {
         return id_ruta;
     }
@@ -46,12 +48,12 @@ class Ruta {
         this.destino = destino;
     }
 
-    public LocalDate getDuracion_estimada() {
+    public Time getDuracion_estimada() {
         return duracion_estimada;
     }
 
-    public void setDuracion_estimada(LocalDate duracion_estimada) {
+    public void setDuracion_estimada(Time duracion_estimada) {
         this.duracion_estimada = duracion_estimada;
     }
-    
+
 }

@@ -1,24 +1,25 @@
+package Entidades;
 
-package trabajofinalbus.Entidades;
-
-import java.time.LocalDate;
-
+import java.sql.Time;
 
 public class Horario {
+
     private int id_horario;
     private Ruta ruta;
-    private LocalDate hora_salida;
-    private LocalDate hora_llegada;
+    private Time hora_salida;
+    private Time hora_llegada;
 
-    public Horario(){}
-            
-    public Horario( Ruta ruta, LocalDate hora_salida, LocalDate hora_llegada) {
+    public Horario() {
+    }
+
+    public Horario(Ruta ruta, Time hora_salida, Time hora_llegada) {
         this.ruta = ruta;
         this.hora_salida = hora_salida;
         this.hora_llegada = hora_llegada;
+
     }
-    
-    public Horario(int id_horario, Ruta ruta, LocalDate hora_salida, LocalDate hora_llegada) {
+
+    public Horario(int id_horario, Ruta ruta, Time hora_salida, Time hora_llegada) {
         this.id_horario = id_horario;
         this.ruta = ruta;
         this.hora_salida = hora_salida;
@@ -41,20 +42,20 @@ public class Horario {
         this.ruta = ruta;
     }
 
-    public LocalDate getHora_salida() {
+    public Time getHora_salida() {
         return hora_salida;
     }
 
-    public void setHora_salida(LocalDate hora_salida) {
+    public void setHora_salida(Time hora_salida) {
         this.hora_salida = hora_salida;
     }
 
-    public LocalDate getHora_llegada() {
+    public Time getHora_llegada() {
         return hora_llegada;
     }
 
-    public void setHora_llegada(LocalDate hora_llegada) {
+    public void setHora_llegada(Time hora_llegada) {
         this.hora_llegada = hora_llegada;
     }
-    
+
 }

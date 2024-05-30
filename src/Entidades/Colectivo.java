@@ -1,16 +1,16 @@
+package Entidades;
 
-package trabajofinalbus.Entidades;
+public class Colectivo {
 
-
-class Colectivo {
     private int id_colectivo;
     private String matricula;
     private String marca;
     private String modelo;
     private int capacidad;
-    
-    
-    public Colectivo(){}
+
+    public Colectivo() {
+    }
+
     public Colectivo(int id_colectivo, String matricula, String marca, String modelo, int capacidad) {
         this.id_colectivo = id_colectivo;
         this.matricula = matricula;
@@ -18,12 +18,14 @@ class Colectivo {
         this.modelo = modelo;
         this.capacidad = capacidad;
     }
-    public Colectivo( String matricula, String marca, String modelo, int capacidad) {
+
+    public Colectivo(String matricula, String marca, String modelo, int capacidad) {
         this.matricula = matricula;
         this.marca = marca;
         this.modelo = modelo;
         this.capacidad = capacidad;
     }
+
     public int getId_colectivo() {
         return id_colectivo;
     }
@@ -63,5 +65,10 @@ class Colectivo {
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Colectivo {" + "id_colectivo:" + id_colectivo + ", matricula:" + matricula + ", marca:" + marca + ", modelo:" + modelo + ", capacidad:" + capacidad + "}\n";
+    }
+
 }
