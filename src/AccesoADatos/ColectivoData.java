@@ -17,7 +17,7 @@ public class ColectivoData {
     }
 
     public void guardarColectivo(Colectivo colectivo) {
-        String sql = "INSERT INTO `colectivos`( `matricula`, `marca`, `modelo`, `capacidad`) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO `colectivos`( `matricula`, `marca`, `modelo`, `capacidad`, `estado`) VALUES (?,?,?,?,?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -25,6 +25,7 @@ public class ColectivoData {
             ps.setString(2, colectivo.getMarca());
             ps.setString(3, colectivo.getModelo());
             ps.setInt(4, colectivo.getCapacidad());
+            ps.setBoolean(5, true);
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -41,7 +42,7 @@ public class ColectivoData {
     }
 
     public void modificarColectivo(Colectivo colectivo) {
-        String sql = "UPDATE `colectivos` SET `matricula`= ?,`marca`= ?, `modelo`=?,`capacidad`= ? WHERE id_colectivo = ?";
+        String sql = "UPDATE `colectivos` SET `matricula`= ?,`marca`= ?, `modelo`=?,`capacidad`= ? WHERE id_colectivo = ? AND estado = 1 ";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -65,7 +66,7 @@ public class ColectivoData {
 
     public Colectivo buscarColectivoPorId(int id) {
         Colectivo colectivo = null;
-        String sql = "SELECT  `matricula`, `marca`, `modelo`, `capacidad` FROM `colectivos` WHERE ID_colectivo = ?";
+        String sql = "SELECT  `matricula`, `marca`, `modelo`, `capacidad` FROM `colectivos` WHERE ID_colectivo = ? AND estado = 1";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -93,7 +94,7 @@ public class ColectivoData {
 
     public Colectivo buscarColectivoPorMatricula(String matricula) {
         Colectivo colectivo = null;
-        String sql = "SELECT  `id_colectivo`, `marca`, `modelo`, `capacidad` FROM `colectivos` WHERE matricula = ?";
+        String sql = "SELECT  `id_colectivo`, `marca`, `modelo`, `capacidad` FROM `colectivos` WHERE matricula = ? AND estado = 1";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -120,19 +121,21 @@ public class ColectivoData {
     }
 
     public void EliminarColectivo(Colectivo colectivo) {
-        String sql = "DELETE FROM colectivos WHERE id_colectivo = ?";
+        String sql = "UPDATE `colectivos` SET `estado`= 0 WHERE id_colectivo = ?";
+        PreparedStatement ps = null;
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql);
             ps.setInt(1, colectivo.getId_colectivo());
-            int fila = ps.executeUpdate();
-            if (fila > 0) {
-                JOptionPane.showMessageDialog(null, "Colectivo borrado con exito ");
+            int ok = ps.executeUpdate();
+            if (ok == 1) {
+                JOptionPane.showMessageDialog(null, "Colectivo Eliminado Con exito.");
             } else {
-                JOptionPane.showMessageDialog(null, "No se pudo eliminar el colectivo deseado.");
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar el colectivo.");
             }
-            ps.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo ingresar a la tabla colectivos. ERROR: " + ex.getMessage());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Colectivos " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
         }
     }
 

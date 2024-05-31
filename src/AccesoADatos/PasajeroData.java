@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Entidades.Pasajero;
 
@@ -21,7 +19,7 @@ public class PasajeroData {
     }
 
     public void guardarPasajero(Pasajero pasajero) {
-        String sql = "INSERT INTO `pasajeros`( `nombre`, `apellido`, `dni`, `correo`, `telefono`) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO `pasajeros`( `nombre`, `apellido`, `dni`, `correo`, `telefono`, `estado`) VALUES (?,?,?,?,?,?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -30,6 +28,7 @@ public class PasajeroData {
             ps.setString(3, pasajero.getDni());
             ps.setString(4, pasajero.getCorreo());
             ps.setString(5, pasajero.getTelefono());
+            ps.setBoolean(6, true);
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -47,7 +46,7 @@ public class PasajeroData {
 
     public Pasajero buscarPasajeroPorId(int id_pasajero) {
         Pasajero pasajero = null;
-        String sql = "SELECT  `nombre`, `apellido`, `dni`, `correo`, `telefono` FROM `pasajeros` WHERE ID_pasajero = ?";
+        String sql = "SELECT  `nombre`, `apellido`, `dni`, `correo`, `telefono` FROM `pasajeros` WHERE ID_pasajero = ? AND estado = 1";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -77,7 +76,7 @@ public class PasajeroData {
 
     public Pasajero buscarPasajeroPorDni(String dni) {
         Pasajero pasajero = null;
-        String sql = "SELECT  `ID_pasajero`,`nombre`, `apellido`, `correo`, `telefono` FROM `pasajeros` WHERE dni = ?";
+        String sql = "SELECT  `ID_pasajero`,`nombre`, `apellido`, `correo`, `telefono` FROM `pasajeros` WHERE dni = ? AND estado = 1";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -107,7 +106,7 @@ public class PasajeroData {
 
     public List<Pasajero> buscarPasajeroPorNombreyApellido(String nombre, String apellido) {
         List<Pasajero> pasajeros = new ArrayList<>();
-        String sql = "SELECT `ID_pasajero`, `nombre`, `apellido`, `dni`, `correo`, `telefono` FROM `pasajeros` WHERE nombre= ? AND apellido= ?";
+        String sql = "SELECT `ID_pasajero`, `nombre`, `apellido`, `dni`, `correo`, `telefono` FROM `pasajeros` WHERE nombre= ? AND apellido= ? AND estado = 1";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -161,7 +160,7 @@ public class PasajeroData {
     public List<Pasajero> listarPasajeros() {
         List<Pasajero> pasajeros = new ArrayList<>();
         try {
-            String sql = "SELECT `nombre`, `apellido`, `dni`, `correo`, `telefono` FROM `pasajeros`";
+            String sql = "SELECT `nombre`, `apellido`, `dni`, `correo`, `telefono` FROM `pasajeros` WHERE estado = 1";
             PreparedStatement ps;
             ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -184,19 +183,21 @@ public class PasajeroData {
     }
 
     public void EliminarPasajero(Pasajero p) {
-        String sql = "DELETE FROM pasajeros WHERE id_pasajero = ?";
+        String sql = "UPDATE `pasajeros` SET `estado`= 0 WHERE id_pasajero = ?";
+        PreparedStatement ps = null;
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql);
             ps.setInt(1, p.getId_pasajero());
-            int fila = ps.executeUpdate();
-            if (fila > 0) {
-                JOptionPane.showMessageDialog(null, "Pasajero borrado con exito ");
+            int ok = ps.executeUpdate();
+            if (ok == 1) {
+                JOptionPane.showMessageDialog(null, "Pasajero Eliminado Con exito.");
             } else {
-                JOptionPane.showMessageDialog(null, "No se pudo eliminar el pasajero deseado.");
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar el pasajero.");
             }
-            ps.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo ingresar a la tabla Pasajeros. ERROR: " + ex.getMessage());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Pasajeros " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
         }
 
     }

@@ -5,6 +5,7 @@
  */
 package Entidades;
 
+import java.sql.Time;
 import java.time.LocalDate;
 
 
@@ -14,11 +15,11 @@ public class Pasaje {
     private Colectivo colectivo;
     private Ruta ruta;
     private LocalDate fecha_viaje;
-    private LocalDate hora_viaje;
+    private Time hora_viaje;
     private int asiento;
     private float precio;
 
-    public Pasaje(int id_pasaje, Pasajero pasajero, Colectivo colectivo, Ruta ruta, LocalDate fecha_viaje, LocalDate hora_viaje, int asiento, float precio) {
+    public Pasaje(int id_pasaje, Pasajero pasajero, Colectivo colectivo, Ruta ruta, LocalDate fecha_viaje, Time hora_viaje, int asiento, float precio) {
         this.id_pasaje = id_pasaje;
         this.pasajero = pasajero;
         this.colectivo = colectivo;
@@ -29,7 +30,7 @@ public class Pasaje {
         this.precio = precio;
     }
     
-    public Pasaje( Pasajero pasajero, Colectivo colectivo, Ruta ruta, LocalDate fecha_viaje, LocalDate hora_viaje, int asiento, float precio) {
+    public Pasaje( Pasajero pasajero, Colectivo colectivo, Ruta ruta, LocalDate fecha_viaje, Time hora_viaje, int asiento, float precio) {
         this.pasajero = pasajero;
         this.colectivo = colectivo;
         this.ruta = ruta;
@@ -81,11 +82,11 @@ public class Pasaje {
         this.fecha_viaje = fecha_viaje;
     }
 
-    public LocalDate getHora_viaje() {
+    public Time getHora_viaje() {
         return hora_viaje;
     }
 
-    public void setHora_viaje(LocalDate hora_viaje) {
+    public void setHora_viaje(Time hora_viaje) {
         this.hora_viaje = hora_viaje;
     }
 
@@ -104,4 +105,11 @@ public class Pasaje {
     public void setPrecio(float precio) {
         this.precio = precio;
     }
+
+    @Override
+    public String toString() {
+        return "Pasaje{" + "id_pasaje=" + id_pasaje + ", pasajero=" + pasajero + ", colectivo=" + colectivo + ", ruta=" + ruta + ", fecha_viaje=" + fecha_viaje + ", hora_viaje=" + hora_viaje + ", asiento=" + asiento + ", precio=" + precio + '}';
+    }
+    
+    
 }

@@ -1,13 +1,88 @@
 
 package AccesoADatos;
 
+import Entidades.Colectivo;
+import Entidades.Pasaje;
+import Entidades.Pasajero;
+import Entidades.Ruta;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 
 public class PasajeData {
     private Connection con = null;
+    private PasajeroData pasData;
+    private ColectivoData colData;
+    private RutaData rutaData;
     
     public PasajeData() {
         con = Conexion.getConexion();
+        pasData = new PasajeroData();
+        colData = new ColectivoData();
+        rutaData = new RutaData();
+    }
+    
+    public void GuardarPasaje(Pasaje pasaje) {
+        String sql = "INSERT INTO `pasajes`(`ID_pasajero`, `ID_colectivo`, `ID_ruta`, `fecha_viaje`, `hora_viaje`, "
+                + "`asiento`, `precio`) VALUES (?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, pasaje.getPasajero().getId_pasajero());
+            ps.setInt(2, pasaje.getColectivo().getId_colectivo());
+            ps.setInt(3, pasaje.getRuta().getId_ruta());
+            ps.setDate(4, Date.valueOf(pasaje.getFecha_viaje()));
+            ps.setTime(5, pasaje.getHora_viaje());
+            ps.setInt(6, pasaje.getAsiento());
+            ps.setFloat(7, pasaje.getPrecio());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                pasaje.setId_pasaje(rs.getInt(1));
+                JOptionPane.showMessageDialog(null, "Pasaje comprado con exito.");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla pasajes " + ex.getMessage());
+            System.out.println(ex.getErrorCode());
+            ex.printStackTrace();
+        }
+    }
+    
+    public List<Pasaje> listarPasajes(){
+        List<Pasaje> pasajes = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM `pasajes`";
+            PreparedStatement ps;
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pasaje pasaje = new Pasaje();
+                pasaje.setId_pasaje(rs.getInt("id_pasaje"));
+                Pasajero p = pasData.buscarPasajeroPorId(rs.getInt("id_pasajero"));
+                Colectivo c = colData.buscarColectivoPorId(rs.getInt("id_colectivo"));
+                Ruta r = rutaData.buscarRutaPorId(rs.getInt("id_ruta"));
+                pasaje.setPasajero(p);
+                pasaje.setColectivo(c);
+                pasaje.setRuta(r);
+                pasaje.setFecha_viaje(rs.getDate("fecha_viaje").toLocalDate());
+                pasaje.setHora_viaje(rs.getTime("hora_viaje"));
+                pasaje.setAsiento(rs.getInt("asiento"));
+                pasaje.setPrecio(rs.getFloat("precio"));
+                pasajes.add(pasaje);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla pasajes " + ex.getMessage());
+            System.out.println(ex.getErrorCode());
+            ex.printStackTrace();
+        }
+        return pasajes;
     }
 }
