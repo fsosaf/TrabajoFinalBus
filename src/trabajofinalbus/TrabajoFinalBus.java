@@ -19,7 +19,7 @@ public class TrabajoFinalBus {
     public static void main(String[] args) {
 
         PasajeroData pasaData = new PasajeroData();
-        Pasajero p = new Pasajero("juan","juarez","45454545","juan@.com","12345679",true);
+        Pasajero p = new Pasajero(2,"juan","juarez","45454545","juan@.com","12345679",true);
         //Pasajero p = pasaData.buscarPasajeroPorId(2);
         //pasaData.EliminarPasajero(p);
 //        pasaData.guardarPasajero(p);
@@ -36,8 +36,8 @@ public class TrabajoFinalBus {
         //System.out.println(colData.buscarColectivoPorMatricula("abc123"));
         //colData.EliminarColectivo(colectivo);
         Time duracion = Time.valueOf("54:08:00");
-        Time hora_s = Time.valueOf("13:08:00");
-        Ruta ruta = new Ruta("mendoza", "cordoba");
+        Time hora_s = Time.valueOf("19:10:16");
+        Ruta ruta = new Ruta(7,"mendoza", "cordoba",duracion,true);
         RutaData rutaData = new RutaData();
 //        rutaData.GuardarRuta(ruta);
 //        System.out.println(rutaData.buscarRutasPorDestino("d"));
@@ -52,9 +52,14 @@ public class TrabajoFinalBus {
 //        horData.eliminarHorario(hora);
         PasajeData pasData = new PasajeData();
         LocalDate fecha = LocalDate.of(1999, 2, 10);
-        Pasaje pasaje = new Pasaje(p,colectivo,ruta,fecha,hora_s,40,9800);
+        Pasaje pasaje = new Pasaje(2,p,colectivo,ruta,fecha,hora_s,40,9800);
 //        pasData.GuardarPasaje(pasaje);
-        System.out.println(pasData.listarPasajes());
+//        System.out.println(pasData.listarPasajes());
+//        System.out.println(pasData.listarPasajesPorHorario(hora_s));
+//        System.out.println(pasData.listarPasajesPorRuta(ruta));
+//        System.out.println(pasData.listarPasajesPorPasajero(p));
+//        System.out.println(pasData.buscarPasajePorId(3));
+        pasData.anularVenta(pasaje);
     }
 
 }
