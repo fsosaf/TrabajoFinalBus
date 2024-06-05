@@ -19,7 +19,7 @@ public class RutaData {
         con = Conexion.getConexion();
     }
 
-    public void GuardarRuta(Ruta ruta) {
+    public Ruta GuardarRuta(Ruta ruta) {
         String sql = "INSERT INTO `rutas`( `origen`, `destino`, `duracion_estimada`, `estado`) VALUES (?,?,?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -40,12 +40,13 @@ public class RutaData {
             ex.printStackTrace();
 
         }
+        return ruta;
     }
     
     public List<Ruta> listarRutas(){
         List<Ruta> rutas = new ArrayList<>();
         try {
-            String sql = "SELECT id_ruta, origen, destino, duracion_estimada FROM `rutas` WHERE estado = 1";
+            String sql = "SELECT * FROM `rutas` WHERE estado = 1";
             PreparedStatement ps;
             ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
