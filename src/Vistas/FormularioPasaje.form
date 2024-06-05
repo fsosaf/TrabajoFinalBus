@@ -37,7 +37,6 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jcbPasajero" min="-2" pref="144" max="-2" attributes="0"/>
                                   <Component id="jlPasajero" alignment="1" min="-2" pref="144" max="-2" attributes="0"/>
@@ -61,13 +60,11 @@
                       </Group>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jtfPrecio" pref="144" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jCalendar" alignment="1" pref="144" max="32767" attributes="0"/>
-                              <Component id="jcbRuta" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jLabel6" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jlRuta" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jlPrecio" alignment="0" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jCalendar" alignment="1" pref="144" max="32767" attributes="0"/>
+                          <Component id="jcbRuta" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jLabel6" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jlRuta" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jlPrecio" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="31" pref="43" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">

@@ -34,7 +34,7 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
     private List<Colectivo> colectivos;
     private List<Ruta> rutas;
     private final String expRegHora = "^(0?[1-9]|1[0-9]|2[0-3])$";
-    private final String expRegMin = "^(0?[1-9]|[1-5][0-9])$";
+    private final String expRegMin = "^(0?[1-9]|[0-5][0-9])$";
     private final String expRegNum = "^[1-9]+\\d*$";
 
     public FormularioPasaje() {
@@ -356,7 +356,7 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
             return false;
         }
         if (!jtfMin.getText().matches(expRegMin)) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un minuto válido (1-59).");
+            JOptionPane.showMessageDialog(this, "Debe ingresar un minuto válido (00-59).");
             return false;
         }
         return true;

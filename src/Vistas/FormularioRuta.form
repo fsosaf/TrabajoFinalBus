@@ -167,6 +167,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Guardar solo Horario (con Ruta existente)"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbGuardarHorarioActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jtfDestino">
     </Component>
@@ -188,6 +191,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Guardar Ruta y Horario"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbGuardarHorarioRutaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jlRutaExistente">
       <Properties>

@@ -4,7 +4,16 @@
  */
 package Vistas;
 
+import AccesoADatos.HorarioData;
+import AccesoADatos.RutaData;
+import Entidades.Horario;
 import Entidades.Ruta;
+import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -15,8 +24,17 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
     /**
      * Creates new form FormularioHorario
      */
+    private final String expRegHora = "^(0?[1-9]|1[0-9]|2[0-3])$";
+    private final String expRegMin = "^(0?[1-9]|[0-5][0-9])$";
+    private RutaData rutaData;
+    private HorarioData horaData;
+    List<Ruta> rutas;
+
     public FormularioRuta() {
         initComponents();
+        rutaData = new RutaData();
+        horaData = new HorarioData();
+        cargarCombo();
     }
 
     /**
@@ -64,6 +82,11 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
         jlHLlegada.setText("Horario de llegada");
 
         jbGuardarHorario.setText("Guardar solo Horario (con Ruta existente)");
+        jbGuardarHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarHorarioActionPerformed(evt);
+            }
+        });
 
         jlDestino.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlDestino.setText("Destino");
@@ -72,6 +95,11 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
         jlOrigen.setText("Origen");
 
         jbGuardarHorarioRuta.setText("Guardar Ruta y Horario");
+        jbGuardarHorarioRuta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarHorarioRutaActionPerformed(evt);
+            }
+        });
 
         jlRutaExistente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlRutaExistente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -193,6 +221,131 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbGuardarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarHorarioActionPerformed
+        Time horaSalida, horaLlegada;
+        String h, min;
+        Ruta ruta;
+        Horario horario;
+
+        //validar horario salida
+        if (validarHorario(jtfHoraSalida, jtfMinSalida)) {
+            h = jtfHoraSalida.getText();
+            min = jtfMinSalida.getText();
+            horaSalida = Time.valueOf(h + ":" + min + ":00");
+        } else {
+            return;
+        }
+        //validar horario salida
+
+        //validar horario llegada
+        if (validarHorario(jtfHoraLlegada, jtfMinLlegada)) {
+            h = jtfHoraLlegada.getText();
+            min = jtfMinLlegada.getText();
+            horaLlegada = Time.valueOf(h + ":" + min + ":00");
+        } else {
+            return;
+        }
+        //validar horario llegada
+
+        //validar ruta
+        ruta = (Ruta) jcbRutasExistentes.getSelectedItem();
+        if (ruta == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar o registrar una ruta");
+            return;
+        }
+        //validar ruta
+
+        //creo objeto horario
+        horario = new Horario();
+        horario.setHora_salida(horaSalida);
+        horario.setHora_llegada(horaLlegada);
+        horario.setRuta(ruta);
+        //creo objeto horario
+
+        horaData.GuardarHorario(horario);
+    }//GEN-LAST:event_jbGuardarHorarioActionPerformed
+
+    private void jbGuardarHorarioRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarHorarioRutaActionPerformed
+        Time horaSalida, horaLlegada, duracionTime;
+        String h, min, origen, destino;
+        Ruta rutaConId, ruta = new Ruta();
+        Horario horario = new Horario();
+        long hours,minutes;
+        Duration duracion;
+
+        //validar horario salida
+        if (validarHorario(jtfHoraSalida, jtfMinSalida)) {
+            h = jtfHoraSalida.getText();
+            min = jtfMinSalida.getText();
+            horaSalida = Time.valueOf(h + ":" + min + ":00");
+        } else {
+            return;
+        }
+        //validar horario salida
+
+        //validar horario llegada
+        if (validarHorario(jtfHoraLlegada, jtfMinLlegada)) {
+            h = jtfHoraLlegada.getText();
+            min = jtfMinLlegada.getText();
+            horaLlegada = Time.valueOf(h + ":" + min + ":00");
+        } else {
+            return;
+        }
+        //validar horario llegada
+
+        //validar ruta
+        if (jtfOrigen.getText().equals("") || jtfDestino.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Ingrese un origen y un destino");
+            return;
+        }
+        origen = jtfOrigen.getText();
+        destino = jtfDestino.getText();
+
+        LocalTime salida = horaSalida.toLocalTime();
+        LocalTime llegada = horaLlegada.toLocalTime();
+
+        // Calcular la duración
+        if (llegada.equals(salida)) {
+            // Caso 24hrs
+            duracion = Duration.ofHours(23).plusMinutes(59);
+        } else if (llegada.isBefore(salida)) {
+            // Caso en que la llegada es al día siguiente
+            duracion = Duration.between(salida, LocalTime.MIDNIGHT).plus(Duration.between(LocalTime.MIDNIGHT, llegada));
+        } else {
+            // Caso normal
+            duracion = Duration.between(salida, llegada);
+        }
+        // Convertir la duración a horas y minutos
+        System.out.println(duracion);
+        hours = duracion.toHours();
+        minutes = duracion.toMinutes() % 60;
+        duracionTime = Time.valueOf(hours + ":" + minutes + ":00");
+        System.out.println(duracionTime);
+        //validar ruta   
+
+        //creo la ruta
+        ruta.setOrigen(origen);
+        ruta.setDestino(destino);
+        ruta.setDuracion_estimada(duracionTime);
+        rutaConId = rutaData.GuardarRuta(ruta);
+        if(rutaConId.getId_ruta()==0){
+            JOptionPane.showMessageDialog(this, "La ruta no pudo agregarse");
+            return;
+        }
+        //creo la ruta
+        
+        //creo el horario con la ruta anterior
+        horario.setRuta(rutaConId);
+        horario.setHora_salida(horaSalida);
+        horario.setHora_llegada(horaLlegada);
+        horaData.GuardarHorario(horario);
+        //creo el horario con la ruta anterior
+        
+        //actualizo el combo
+        cargarCombo();
+        //actualizo el combo
+    }//GEN-LAST:event_jbGuardarHorarioRutaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -216,4 +369,28 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfMinSalida;
     private javax.swing.JTextField jtfOrigen;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarCombo() {
+        jcbRutasExistentes.removeAllItems(); //reseteo el combo
+        rutas = rutaData.listarRutas();
+        for (Ruta ruta : rutas) {
+            jcbRutasExistentes.addItem(ruta);
+        }
+    }
+
+    private boolean validarHorario(JTextField hora, JTextField min) {
+        if (hora.getText().equals("") || min.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una horario.");
+            return false;
+        }
+        if (!hora.getText().matches(expRegHora)) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una hora válida (1-23).");
+            return false;
+        }
+        if (!min.getText().matches(expRegMin)) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un minuto válido (00-59).");
+            return false;
+        }
+        return true;
+    }
 }
