@@ -33,7 +33,6 @@ public class Gestor extends javax.swing.JFrame {
         jmAdministracion = new javax.swing.JMenu();
         jmiFormulariocolectivo = new javax.swing.JMenuItem();
         jmiFormularioruta = new javax.swing.JMenuItem();
-        jmiFormulariohorario = new javax.swing.JMenuItem();
         jmiPasajero = new javax.swing.JMenuItem();
         jmiInformepasajes = new javax.swing.JMenuItem();
         jmConsultas = new javax.swing.JMenu();
@@ -91,14 +90,6 @@ public class Gestor extends javax.swing.JFrame {
             }
         });
         jmAdministracion.add(jmiFormularioruta);
-
-        jmiFormulariohorario.setText("Formulario Horario");
-        jmiFormulariohorario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiFormulariohorarioActionPerformed(evt);
-            }
-        });
-        jmAdministracion.add(jmiFormulariohorario);
 
         jmiPasajero.setText("Formulario Pasajero");
         jmiPasajero.addActionListener(new java.awt.event.ActionListener() {
@@ -200,20 +191,11 @@ public class Gestor extends javax.swing.JFrame {
     private void jmiFormulariorutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiFormulariorutaActionPerformed
         escritorio.removeAll();
         escritorio.repaint();
-        FormularioRuta fr = new FormularioRuta();
-        fr.setVisible(true);
-        escritorio.add(fr);
-        escritorio.moveToFront(fr);
-    }//GEN-LAST:event_jmiFormulariorutaActionPerformed
-
-    private void jmiFormulariohorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiFormulariohorarioActionPerformed
-        escritorio.removeAll();
-        escritorio.repaint();
-        FormularioHorario fh = new FormularioHorario();
+        FormularioRuta fh = new FormularioRuta();
         fh.setVisible(true);
         escritorio.add(fh);
         escritorio.moveToFront(fh);
-    }//GEN-LAST:event_jmiFormulariohorarioActionPerformed
+    }//GEN-LAST:event_jmiFormulariorutaActionPerformed
 
     private void jmiInformepasajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiInformepasajesActionPerformed
         escritorio.removeAll();
@@ -271,7 +253,6 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JMenu jmVenta;
     private javax.swing.JMenuBar jmenubarra;
     private javax.swing.JMenuItem jmiFormulariocolectivo;
-    private javax.swing.JMenuItem jmiFormulariohorario;
     private javax.swing.JMenuItem jmiFormularioruta;
     private javax.swing.JMenuItem jmiInformepasajes;
     private javax.swing.JMenuItem jmiPasajero;
