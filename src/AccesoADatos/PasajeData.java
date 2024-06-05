@@ -217,15 +217,16 @@ public class PasajeData {
         return pasaje;
     }
     
-    public List<Integer> controlAsientos(LocalDate fecha, Time hora, Colectivo cole){
+    public List<Integer> controlAsientos(LocalDate fecha, Time hora, Colectivo cole, Ruta ruta){
         List<Integer> asientos = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM `pasajes` WHERE hora_viaje = ? AND fecha_viaje = ? AND ID_colectivo = ?";
+            String sql = "SELECT * FROM `pasajes` WHERE hora_viaje = ? AND fecha_viaje = ? AND ID_colectivo = ? AND ID_ruta = ?";
             PreparedStatement ps;
             ps = con.prepareStatement(sql);
             ps.setTime(1, hora);
             ps.setDate(2, Date.valueOf(fecha));
             ps.setInt(3, cole.getId_colectivo());
+            ps.setInt(4, ruta.getId_ruta());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 asientos.add(rs.getInt("asiento"));
