@@ -45,8 +45,6 @@ public class Gestor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestor de colectivos Sol Bus");
-        setFocusable(false);
-        setFocusableWindowState(false);
         setForeground(java.awt.Color.blue);
         setResizable(false);
 
