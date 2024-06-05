@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -215,6 +216,28 @@ public class PasajeData {
         }
         return pasaje;
     }
+    
+    public List<Integer> controlAsientos(LocalDate fecha, Time hora, Colectivo cole){
+        List<Integer> asientos = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM `pasajes` WHERE hora_viaje = ? AND fecha_viaje = ? AND ID_colectivo = ?";
+            PreparedStatement ps;
+            ps = con.prepareStatement(sql);
+            ps.setTime(1, hora);
+            ps.setDate(2, Date.valueOf(fecha));
+            ps.setInt(3, cole.getId_colectivo());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                asientos.add(rs.getInt("asiento"));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla pasajes " + ex.getMessage());
+            System.out.println(ex.getErrorCode());
+            ex.printStackTrace();
+        }
+        return asientos;
+    } 
     
     public void anularVenta(Pasaje pasaje){
         String sql = "DELETE FROM `pasajes` WHERE id_pasaje = ?";

@@ -108,7 +108,7 @@ public class Pasaje {
 
     @Override
     public String toString() {
-        return "Pasaje{" + "id_pasaje=" + id_pasaje + ", pasajero=" + pasajero + ", colectivo=" + colectivo + ", ruta=" + ruta + ", fecha_viaje=" + fecha_viaje + ", hora_viaje=" + hora_viaje + ", asiento=" + asiento + ", precio=" + precio + '}';
+        return pasajero.getNombre()+", "+pasajero.getDni()+" - "+ruta+" | "+hora_viaje+" - $"+precio+" | Asiento: "+asiento;
     }
     
     

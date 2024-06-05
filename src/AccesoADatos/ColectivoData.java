@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import Entidades.Colectivo;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ColectivoData {
 
@@ -64,6 +66,33 @@ public class ColectivoData {
         }
     }
 
+    public List<Colectivo> listarColectivos() {
+        List<Colectivo> colectivos = new ArrayList<>();
+        String sql = "SELECT * FROM `colectivos` WHERE estado = 1";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Colectivo colectivo = new Colectivo();
+                colectivo.setId_colectivo(rs.getInt("id_colectivo"));
+                colectivo.setMarca(rs.getString("marca"));
+                colectivo.setModelo(rs.getString("modelo"));
+                colectivo.setMatricula(rs.getString("matricula"));
+                colectivo.setCapacidad(rs.getInt("capacidad"));
+                colectivo.setEstado(rs.getBoolean("estado"));
+                colectivos.add(colectivo);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla colectivos " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+
+        }
+        return colectivos;
+    }
+    
     public Colectivo buscarColectivoPorId(int id) {
         Colectivo colectivo = null;
         String sql = "SELECT  `matricula`, `marca`, `modelo`, `capacidad` FROM `colectivos` WHERE ID_colectivo = ? AND estado = 1";

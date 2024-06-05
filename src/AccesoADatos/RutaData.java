@@ -21,7 +21,7 @@ public class RutaData {
 
     public void GuardarRuta(Ruta ruta) {
         String sql = "INSERT INTO `rutas`( `origen`, `destino`, `duracion_estimada`, `estado`) VALUES (?,?,?,?)";
-        Time duracion = Time.valueOf("00:00:00");
+        Time duracion = Time.valueOf("01:15:00");
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, ruta.getOrigen());
