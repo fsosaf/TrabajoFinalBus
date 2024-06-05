@@ -134,7 +134,7 @@ public class PasajeroData {
     }
 
     public void modificarPasajero(Pasajero pasajero) {
-        String sql = "UPDATE `pasajeros` SET `nombre`= ?,`apellido`= ?,`dni`= ?,`correo`=?,`telefono`= ? WHERE id_pasajero = ?";
+        String sql = "UPDATE `pasajeros` SET `nombre`= ?,`apellido`= ?,`dni`= ?,`correo`= ?,`telefono`= ? WHERE id_pasajero = ?";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -160,12 +160,13 @@ public class PasajeroData {
     public List<Pasajero> listarPasajeros() {
         List<Pasajero> pasajeros = new ArrayList<>();
         try {
-            String sql = "SELECT `nombre`, `apellido`, `dni`, `correo`, `telefono` FROM `pasajeros` WHERE estado = 1";
+            String sql = "SELECT * FROM `pasajeros` WHERE estado = 1";
             PreparedStatement ps;
             ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Pasajero pasajero = new Pasajero();
+                pasajero.setId_pasajero(rs.getInt("id_pasajero"));
                 pasajero.setNombre(rs.getString("nombre"));
                 pasajero.setApellido(rs.getString("apellido"));
                 pasajero.setDni(rs.getString("dni"));
