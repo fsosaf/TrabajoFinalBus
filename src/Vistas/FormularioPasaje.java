@@ -44,7 +44,6 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
         colData = new ColectivoData();
         rutaData = new RutaData();
         cargarCombos();
-        jtfMin.setEditable(true);
     }
 
     /**
@@ -220,7 +219,8 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
         Colectivo c = new Colectivo();
         Ruta r = new Ruta();
         Time hora;
-        LocalDate fecha;
+        LocalDate fecha, hoy;
+        LocalTime ahora,horaLT;
         String h, min;
         int asiento;
         float precio;
@@ -256,6 +256,12 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
             h = jtfHora.getText();
             min = jtfMin.getText();
             hora = Time.valueOf(h + ":" + min + ":00");
+            ahora = LocalTime.now();
+            horaLT = hora.toLocalTime();
+            if(horaLT.isBefore(ahora)){
+                JOptionPane.showMessageDialog(this, "Ingrese una hora posterior a la actual");
+                return;                
+            }
         } else {
             return;
         }
@@ -264,7 +270,12 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
         //validar fecha
         //¿CONTROL PARA DIAS IMPOSIBLES?
         try {
-            fecha = LocalDate.parse(ff.format(jCalendar.getCalendar().getTime()));          
+            fecha = LocalDate.parse(ff.format(jCalendar.getCalendar().getTime()));  
+            hoy = LocalDate.now();            
+            if(fecha.isBefore(hoy)){
+                JOptionPane.showMessageDialog(this, "Ingrese una fecha posterior al día de hoy");
+                return;
+            }
             asientosOcupados = pasaData.controlAsientos(fecha, hora, c, r);//asientos ocupados aca para inicializarlo
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Ingrese una fecha válida");

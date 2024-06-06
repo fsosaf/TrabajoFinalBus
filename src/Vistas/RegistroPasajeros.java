@@ -76,6 +76,8 @@ public class RegistroPasajeros extends javax.swing.JInternalFrame {
         jtfId = new javax.swing.JTextField();
         jbRestaurar = new javax.swing.JButton();
 
+        setClosable(true);
+
         jLabel1.setBackground(new java.awt.Color(0, 3, 102));
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

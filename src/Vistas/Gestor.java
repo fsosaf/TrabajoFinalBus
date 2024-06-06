@@ -34,10 +34,10 @@ public class Gestor extends javax.swing.JFrame {
         jmiFormulariocolectivo = new javax.swing.JMenuItem();
         jmiFormularioruta = new javax.swing.JMenuItem();
         jmiPasajero = new javax.swing.JMenuItem();
-        jmiInformepasajes = new javax.swing.JMenuItem();
         jmConsultas = new javax.swing.JMenu();
         jmiRegistropasajeros = new javax.swing.JMenuItem();
         jmiRegistroColectivo = new javax.swing.JMenuItem();
+        jmiInformepasajes = new javax.swing.JMenuItem();
         jmSalir = new javax.swing.JMenu();
         jmiSalir = new javax.swing.JMenuItem();
 
@@ -98,14 +98,6 @@ public class Gestor extends javax.swing.JFrame {
         });
         jmAdministracion.add(jmiPasajero);
 
-        jmiInformepasajes.setText("Historial de ventas");
-        jmiInformepasajes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiInformepasajesActionPerformed(evt);
-            }
-        });
-        jmAdministracion.add(jmiInformepasajes);
-
         jmenubarra.add(jmAdministracion);
 
         jmConsultas.setText("Consultas");
@@ -125,6 +117,14 @@ public class Gestor extends javax.swing.JFrame {
             }
         });
         jmConsultas.add(jmiRegistroColectivo);
+
+        jmiInformepasajes.setText("Historial de ventas");
+        jmiInformepasajes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiInformepasajesActionPerformed(evt);
+            }
+        });
+        jmConsultas.add(jmiInformepasajes);
 
         jmenubarra.add(jmConsultas);
 

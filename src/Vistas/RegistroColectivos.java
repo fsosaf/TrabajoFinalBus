@@ -66,6 +66,8 @@ public class RegistroColectivos extends javax.swing.JInternalFrame {
         jtfModelo = new javax.swing.JTextField();
         jcbCapacidad = new javax.swing.JComboBox<>();
 
+        setClosable(true);
+
         jLabel1.setBackground(new java.awt.Color(0, 3, 102));
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
