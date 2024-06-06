@@ -6,6 +6,7 @@ package Vistas;
 
 import AccesoADatos.PasajeroData;
 import Entidades.Pasajero;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +22,7 @@ public class FormularioPasajero extends javax.swing.JInternalFrame {
     private final String expRegDni = "^[1-9]{1}[\\d]{7}$";
     private final String expRegMail = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9]+)*(?:\\.[A-Za-z]+)$";
     private PasajeroData pasaData;
+    List<Pasajero> pasajeros;
     public FormularioPasajero() {
         initComponents();
         pasaData = new PasajeroData();
@@ -176,6 +178,20 @@ public class FormularioPasajero extends javax.swing.JInternalFrame {
             telefono = jtfTelefono.getText();
         }
         //validar tel
+        
+        //dni/correo repetido
+        pasajeros = pasaData.listarPasajeros();
+        for(Pasajero p : pasajeros){
+            if(p.getDni().equals(jtfDni.getText())){
+                JOptionPane.showMessageDialog(this, "Ingrese un dni que no este repetido");
+                return;
+            }
+            if(p.getCorreo().equals(jtfCorreo.getText())){
+                JOptionPane.showMessageDialog(this, "Ingrese un correo que no este repetido");
+                return;
+            }
+        }
+        //dni/correo repetido
         
         pasajero.setNombre(nombre);
         pasajero.setApellido(apellido);
