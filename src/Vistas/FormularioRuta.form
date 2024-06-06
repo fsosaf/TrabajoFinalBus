@@ -99,14 +99,16 @@
                   <Component id="jlHLlegada" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jtfHoraSalida" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jtfMinSalida" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jlSeparadorHoraS" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jtfHoraLlegada" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jtfMinLlegada" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jlSeparadorHoraL" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jtfHoraSalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtfMinSalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jlSeparadorHoraS" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>

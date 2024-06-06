@@ -4,7 +4,18 @@
  */
 package Vistas;
 
+import AccesoADatos.ColectivoData;
+import AccesoADatos.PasajeData;
+import AccesoADatos.PasajeroData;
+import AccesoADatos.RutaData;
+import Entidades.Colectivo;
+import Entidades.Pasaje;
+import Entidades.Pasajero;
 import Entidades.Ruta;
+import java.sql.Time;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,8 +26,28 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
     /**
      * Creates new form FormularioHistorialVentas
      */
+    private DefaultTableModel modelo = new DefaultTableModel(){
+        public boolean isCellEditable(int fila, int columna){
+            return false;
+        }
+    };
+    private final String expRegHora = "^(0?[1-9]|1[0-9]|2[0-3])$";
+    private final String expRegMin = "^(0?[1-9]|[0-5][0-9])$";
+    private PasajeroData pasaData;
+    private RutaData rutaData;
+    private PasajeData pasajeData;
+    private ColectivoData coleData;
+    private List<Pasajero> pasajeros;
+    private List<Ruta> rutas;
+    private List<Pasaje> pasajes;
     public FormularioHistorialVentas() {
         initComponents();
+        rutaData = new RutaData();
+        pasaData = new PasajeroData();
+        pasajeData = new PasajeData();
+        coleData = new ColectivoData();
+        armarCabecera();
+        cargarCombos();
     }
 
     /**
@@ -40,6 +71,9 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtTablaventas = new javax.swing.JTable();
         jbAnular = new javax.swing.JButton();
+        jbBuscarRuta = new javax.swing.JButton();
+        jbBuscarPasajero = new javax.swing.JButton();
+        jbBuscarHorario = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -56,12 +90,6 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Filtrar por horario");
-
-        jtfHoras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfHorasActionPerformed(evt);
-            }
-        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText(":");
@@ -80,6 +108,32 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jtTablaventas);
 
         jbAnular.setText("Anular pasaje");
+        jbAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAnularActionPerformed(evt);
+            }
+        });
+
+        jbBuscarRuta.setText("Buscar (Ruta)");
+        jbBuscarRuta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarRutaActionPerformed(evt);
+            }
+        });
+
+        jbBuscarPasajero.setText("Buscar (Pasajero)");
+        jbBuscarPasajero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarPasajeroActionPerformed(evt);
+            }
+        });
+
+        jbBuscarHorario.setText("Buscar (Horario)");
+        jbBuscarHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarHorarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,27 +143,30 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jcbRutas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jcbPasajeros, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jtfHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtfMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbBuscarRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbRutas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                        .addGap(85, 85, 85)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jcbPasajeros, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbBuscarPasajero, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE))
+                        .addGap(84, 84, 84)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbBuscarHorario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jtfHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jbAnular, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,15 +182,19 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtfMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(jtfHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                            .addComponent(jcbPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jtfMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5)
+                                .addComponent(jtfHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbBuscarRuta)
+                    .addComponent(jbBuscarPasajero)
+                    .addComponent(jbBuscarHorario))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbAnular)
@@ -143,9 +204,73 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtfHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfHorasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfHorasActionPerformed
+    private void jbBuscarRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarRutaActionPerformed
+        borrarFilas();
+        Pasajero pasajero;
+        Colectivo colectivo;
+        Ruta ruta = (Ruta)jcbRutas.getSelectedItem();
+        if (ruta == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar o registrar una ruta");
+            return;
+        }
+        pasajes = pasajeData.listarPasajesPorRuta(ruta);
+        for(Pasaje p : pasajes){
+            pasajero = pasaData.buscarPasajeroPorId(p.getPasajero().getId_pasajero());
+            colectivo = coleData.buscarColectivoPorId(p.getColectivo().getId_colectivo());
+            modelo.addRow(new Object[]{p.getId_pasaje(),pasajero.getNombre(),colectivo.getMatricula(),ruta.getOrigen(),ruta.getDestino(),p.getFecha_viaje(),p.getHora_viaje(),p.getAsiento(),p.getPrecio()});
+        }
+    }//GEN-LAST:event_jbBuscarRutaActionPerformed
+
+    private void jbBuscarPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarPasajeroActionPerformed
+        borrarFilas();
+        Ruta ruta;
+        Colectivo colectivo;
+        Pasajero pasajero = (Pasajero)jcbPasajeros.getSelectedItem();
+        if (pasajero == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar o registrar un pasajero");
+            return;
+        }
+        pasajes = pasajeData.listarPasajesPorPasajero(pasajero);
+        for(Pasaje p : pasajes){
+            ruta = rutaData.buscarRutaPorId(p.getRuta().getId_ruta());
+            colectivo = coleData.buscarColectivoPorId(p.getColectivo().getId_colectivo());
+            modelo.addRow(new Object[]{p.getId_pasaje(),pasajero.getNombre(),colectivo.getMatricula(),ruta.getOrigen(),ruta.getDestino(),p.getFecha_viaje(),p.getHora_viaje(),p.getAsiento(),p.getPrecio()});
+        }
+    }//GEN-LAST:event_jbBuscarPasajeroActionPerformed
+
+    private void jbBuscarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarHorarioActionPerformed
+        borrarFilas();
+        Ruta ruta;
+        Colectivo colectivo;
+        Pasajero pasajero;
+        Time hora;
+        String h,min;
+        
+        if (validarHora()) {
+            h = jtfHoras.getText();
+            min = jtfMinutos.getText();
+            hora = Time.valueOf(h + ":" + min + ":00");
+        } else {
+            return;
+        }
+        
+        pasajes = pasajeData.listarPasajesPorHorario(hora);
+        for(Pasaje p : pasajes){
+            ruta = rutaData.buscarRutaPorId(p.getRuta().getId_ruta());
+            colectivo = coleData.buscarColectivoPorId(p.getColectivo().getId_colectivo());
+            pasajero = pasaData.buscarPasajeroPorId(p.getPasajero().getId_pasajero());
+            modelo.addRow(new Object[]{p.getId_pasaje(),pasajero.getNombre(),colectivo.getMatricula(),ruta.getOrigen(),ruta.getDestino(),p.getFecha_viaje(),p.getHora_viaje(),p.getAsiento(),p.getPrecio()});
+        }
+    }//GEN-LAST:event_jbBuscarHorarioActionPerformed
+
+    private void jbAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnularActionPerformed
+        int fila = jtTablaventas.getSelectedRow();
+        if(fila!=-1){
+            int idPasaje = (Integer)modelo.getValueAt(fila, 0);
+            Pasaje pasaje = pasajeData.buscarPasajePorId(idPasaje);
+            pasajeData.anularVenta(pasaje);
+        }
+    }//GEN-LAST:event_jbAnularActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -155,10 +280,60 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAnular;
-    private javax.swing.JComboBox<Ruta> jcbPasajeros;
+    private javax.swing.JButton jbBuscarHorario;
+    private javax.swing.JButton jbBuscarPasajero;
+    private javax.swing.JButton jbBuscarRuta;
+    private javax.swing.JComboBox<Pasajero> jcbPasajeros;
     private javax.swing.JComboBox<Ruta> jcbRutas;
     private javax.swing.JTable jtTablaventas;
     private javax.swing.JTextField jtfHoras;
     private javax.swing.JTextField jtfMinutos;
     // End of variables declaration//GEN-END:variables
+
+    private void armarCabecera() {
+        modelo.addColumn("ID Pasaje");
+        modelo.addColumn("Pasajero");
+        modelo.addColumn("Matricula del colectivo");
+        modelo.addColumn("Origen");
+        modelo.addColumn("Destino");
+        modelo.addColumn("Fecha del viaje");
+        modelo.addColumn("Hora del viaje");
+        modelo.addColumn("Asiento");
+        modelo.addColumn("Precio");
+        jtTablaventas.setModel(modelo);
+    }
+    
+    private void borrarFilas() {
+        int filas = modelo.getRowCount()-1;
+        for (int i = filas; i  >=0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+
+    private void cargarCombos() {
+        pasajeros = pasaData.listarPasajeros();
+        for(Pasajero p : pasajeros){
+            jcbPasajeros.addItem(p);
+        }
+        rutas = rutaData.listarRutas();
+        for(Ruta r : rutas){
+            jcbRutas.addItem(r);
+        }
+    }
+
+    private boolean validarHora() {
+        if (jtfHoras.getText().equals("") || jtfMinutos.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una horario.");
+            return false;
+        }
+        if (!jtfHoras.getText().matches(expRegHora)) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una hora válida (1-23).");
+            return false;
+        }
+        if (!jtfMinutos.getText().matches(expRegMin)) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un minuto válido (00-59).");
+            return false;
+        }
+        return true;
+    }
 }
