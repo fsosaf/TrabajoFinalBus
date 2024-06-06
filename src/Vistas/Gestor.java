@@ -112,6 +112,11 @@ public class Gestor extends javax.swing.JFrame {
         jmConsultas.setText("Consultas");
 
         jmiRegistropasajeros.setText("Registro de pasajeros");
+        jmiRegistropasajeros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRegistropasajerosActionPerformed(evt);
+            }
+        });
         jmConsultas.add(jmiRegistropasajeros);
 
         jmiRegistrorutas.setText("Registro de rutas");
@@ -209,6 +214,15 @@ public class Gestor extends javax.swing.JFrame {
     private void jmiRegistrohorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRegistrohorariosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jmiRegistrohorariosActionPerformed
+
+    private void jmiRegistropasajerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRegistropasajerosActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        RegistroPasajeros rp = new RegistroPasajeros();
+        rp.setVisible(true);
+        escritorio.add(rp);
+        escritorio.moveToFront(rp);
+    }//GEN-LAST:event_jmiRegistropasajerosActionPerformed
 
     /**
      * @param args the command line arguments

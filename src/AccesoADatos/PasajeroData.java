@@ -46,7 +46,7 @@ public class PasajeroData {
 
     public Pasajero buscarPasajeroPorId(int id_pasajero) {
         Pasajero pasajero = null;
-        String sql = "SELECT  `nombre`, `apellido`, `dni`, `correo`, `telefono` FROM `pasajeros` WHERE ID_pasajero = ? AND estado = 1";
+        String sql = "SELECT  * FROM `pasajeros` WHERE ID_pasajero = ? AND estado = 1";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
