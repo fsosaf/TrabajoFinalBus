@@ -301,6 +301,7 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
         }
         origen = jtfOrigen.getText();
         destino = jtfDestino.getText();
+        //validar ruta   
 
         LocalTime salida = horaSalida.toLocalTime();
         LocalTime llegada = horaLlegada.toLocalTime();
@@ -320,7 +321,6 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
         hours = duracion.toHours();
         minutes = duracion.toMinutes() % 60;
         duracionTime = Time.valueOf(hours + ":" + minutes + ":00");
-        //validar ruta   
 
         //creo la ruta
         ruta.setOrigen(origen);

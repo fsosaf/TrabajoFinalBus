@@ -166,6 +166,34 @@ public class HorarioData {
             e.printStackTrace();
         }
     }
+
+    public List<Horario> listarHorarios() {
+        List<Horario> horarios = new ArrayList<>();
+        Ruta ruta;
+        String sql = "SELECT * FROM `horarios` WHERE estado = 1";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Horario horario = new Horario();
+                horario.setId_horario(rs.getInt("id_horario"));
+                ruta = rutaData.buscarRutaPorId(rs.getInt("id_ruta"));
+                horario.setRuta(ruta);
+                horario.setHora_llegada(rs.getTime("hora_llegada"));
+                horario.setHora_salida(rs.getTime("hora_salida"));
+                horario.setEstado(rs.getBoolean("estado"));
+                horarios.add(horario);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Horarios " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+
+        }
+        return horarios;
+    }
     
     
     
