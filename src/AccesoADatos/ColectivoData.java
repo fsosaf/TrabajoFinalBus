@@ -132,7 +132,7 @@ public class ColectivoData {
             if (rs.next()) {
                 colectivo = new Colectivo();
                 colectivo.setId_colectivo(rs.getInt("id_colectivo"));
-                colectivo.setMatricula(matricula);
+                colectivo.setMatricula(matricula.toUpperCase());
                 colectivo.setMarca(rs.getString("marca"));
                 colectivo.setModelo(rs.getString("modelo"));
                 colectivo.setCapacidad(rs.getInt("capacidad"));

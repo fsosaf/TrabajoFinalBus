@@ -37,6 +37,7 @@ public class Gestor extends javax.swing.JFrame {
         jmiInformepasajes = new javax.swing.JMenuItem();
         jmConsultas = new javax.swing.JMenu();
         jmiRegistropasajeros = new javax.swing.JMenuItem();
+        jmiRegistroColectivo = new javax.swing.JMenuItem();
         jmSalir = new javax.swing.JMenu();
         jmiSalir = new javax.swing.JMenuItem();
 
@@ -116,6 +117,14 @@ public class Gestor extends javax.swing.JFrame {
             }
         });
         jmConsultas.add(jmiRegistropasajeros);
+
+        jmiRegistroColectivo.setText("Registro de colectivos");
+        jmiRegistroColectivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRegistroColectivoActionPerformed(evt);
+            }
+        });
+        jmConsultas.add(jmiRegistroColectivo);
 
         jmenubarra.add(jmConsultas);
 
@@ -207,6 +216,15 @@ public class Gestor extends javax.swing.JFrame {
         escritorio.moveToFront(rp);
     }//GEN-LAST:event_jmiRegistropasajerosActionPerformed
 
+    private void jmiRegistroColectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRegistroColectivoActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        RegistroColectivos rc = new RegistroColectivos();
+        rc.setVisible(true);
+        escritorio.add(rc);
+        escritorio.moveToFront(rc);
+    }//GEN-LAST:event_jmiRegistroColectivoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -253,6 +271,7 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiFormularioruta;
     private javax.swing.JMenuItem jmiInformepasajes;
     private javax.swing.JMenuItem jmiPasajero;
+    private javax.swing.JMenuItem jmiRegistroColectivo;
     private javax.swing.JMenuItem jmiRegistropasajeros;
     private javax.swing.JMenuItem jmiSalir;
     private javax.swing.JMenuItem jmiVenderpasaje;
