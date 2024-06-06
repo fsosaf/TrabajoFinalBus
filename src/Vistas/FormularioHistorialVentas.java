@@ -270,6 +270,7 @@ public class FormularioHistorialVentas extends javax.swing.JInternalFrame {
             Pasaje pasaje = pasajeData.buscarPasajePorId(idPasaje);
             pasajeData.anularVenta(pasaje);
         }
+        borrarFilas();
     }//GEN-LAST:event_jbAnularActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

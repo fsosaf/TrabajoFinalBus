@@ -264,7 +264,7 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
         //validar fecha
         //¿CONTROL PARA DIAS IMPOSIBLES?
         try {
-            fecha = LocalDate.parse(ff.format(jCalendar.getCalendar().getTime()));
+            fecha = LocalDate.parse(ff.format(jCalendar.getCalendar().getTime()));          
             asientosOcupados = pasaData.controlAsientos(fecha, hora, c, r);//asientos ocupados aca para inicializarlo
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Ingrese una fecha válida");
