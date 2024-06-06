@@ -37,8 +37,6 @@ public class Gestor extends javax.swing.JFrame {
         jmiInformepasajes = new javax.swing.JMenuItem();
         jmConsultas = new javax.swing.JMenu();
         jmiRegistropasajeros = new javax.swing.JMenuItem();
-        jmiRegistrorutas = new javax.swing.JMenuItem();
-        jmiRegistrohorarios = new javax.swing.JMenuItem();
         jmSalir = new javax.swing.JMenu();
         jmiSalir = new javax.swing.JMenuItem();
 
@@ -118,17 +116,6 @@ public class Gestor extends javax.swing.JFrame {
             }
         });
         jmConsultas.add(jmiRegistropasajeros);
-
-        jmiRegistrorutas.setText("Registro de rutas");
-        jmConsultas.add(jmiRegistrorutas);
-
-        jmiRegistrohorarios.setText("Registro de horarios");
-        jmiRegistrohorarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiRegistrohorariosActionPerformed(evt);
-            }
-        });
-        jmConsultas.add(jmiRegistrohorarios);
 
         jmenubarra.add(jmConsultas);
 
@@ -211,10 +198,6 @@ public class Gestor extends javax.swing.JFrame {
         escritorio.moveToFront(fhv);
     }//GEN-LAST:event_jmiInformepasajesActionPerformed
 
-    private void jmiRegistrohorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRegistrohorariosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jmiRegistrohorariosActionPerformed
-
     private void jmiRegistropasajerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRegistropasajerosActionPerformed
         escritorio.removeAll();
         escritorio.repaint();
@@ -270,9 +253,7 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiFormularioruta;
     private javax.swing.JMenuItem jmiInformepasajes;
     private javax.swing.JMenuItem jmiPasajero;
-    private javax.swing.JMenuItem jmiRegistrohorarios;
     private javax.swing.JMenuItem jmiRegistropasajeros;
-    private javax.swing.JMenuItem jmiRegistrorutas;
     private javax.swing.JMenuItem jmiSalir;
     private javax.swing.JMenuItem jmiVenderpasaje;
     // End of variables declaration//GEN-END:variables

@@ -26,7 +26,11 @@ public class RegistroPasajeros extends javax.swing.JInternalFrame {
     };
     PasajeroData pasaData;
     List<Pasajero> pasajeros;
-
+    private final String expRegNyA = "^[^\\d\\s]\\D*$";
+    private final String expRegDni = "^[1-9]{1}[\\d]{7}$";
+    private final String expRegMail = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9]+)*(?:\\.[A-Za-z]+)$";
+    
+    
     public RegistroPasajeros() {
         initComponents();
         pasaData = new PasajeroData();
@@ -144,9 +148,19 @@ public class RegistroPasajeros extends javax.swing.JInternalFrame {
 
         jbModificar.setText("Modificar");
         jbModificar.setEnabled(false);
+        jbModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModificarActionPerformed(evt);
+            }
+        });
 
         jbBorrar.setText("Borrar");
         jbBorrar.setEnabled(false);
+        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBorrarActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("ID");
 
@@ -306,6 +320,8 @@ public class RegistroPasajeros extends javax.swing.JInternalFrame {
             jtfCorreo.setText(modelo.getValueAt(fila, 5) + "");
             jtfCorreo.setEnabled(true);
             jtfId.setText(modelo.getValueAt(fila, 0) + "");
+            jbModificar.setEnabled(true);
+            jbBorrar.setEnabled(true);
         }
     }//GEN-LAST:event_jtTablaMouseClicked
 
@@ -359,6 +375,67 @@ public class RegistroPasajeros extends javax.swing.JInternalFrame {
             modelo.addRow(new Object[]{p.getId_pasajero(), p.getNombre(), p.getApellido(), p.getDni(), p.getTelefono(), p.getCorreo()});
         }
     }//GEN-LAST:event_jbBuscarNyAActionPerformed
+
+    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+        Pasajero p = new Pasajero();
+        String nombre,apellido,correo,tel,dni;
+        
+        //validar nombre y apellido
+        if(!jtfNombre.getText().matches(expRegNyA) || !jtfApellido.getText().matches(expRegNyA)){
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre y apellido válidos");
+            return;
+        }else{
+            nombre = jtfNombre.getText();
+            apellido = jtfApellido.getText();
+        }
+        //validar nombre y apellido
+        
+        //validar dni
+        if(!jtfDni.getText().matches(expRegDni)){            
+            JOptionPane.showMessageDialog(this, "Ingrese un dni válido(8 cifras)");
+            return;
+        }else{
+            dni = jtfDni.getText();
+        }
+        //validar dni
+        
+        //validar correo
+        if(!jtfCorreo.getText().matches(expRegMail)){
+            JOptionPane.showMessageDialog(this, "Ingrese un correo válido(***@***.***)");
+            return;            
+        }else{
+            correo = jtfCorreo.getText();
+        }
+        //validar correo
+        
+        //validar tel
+        if(!jtfTelefono.getText().matches("^\\d+$")){
+            JOptionPane.showMessageDialog(this, "Ingrese un telefono válido(solo numeros)");
+            return;            
+        }else{
+            tel = jtfTelefono.getText();
+        }
+        //validar tel
+        
+        p.setId_pasajero(Integer.parseInt(jtfId.getText()));
+        p.setNombre(nombre);
+        p.setApellido(apellido);
+        p.setDni(dni);
+        p.setCorreo(correo);
+        p.setTelefono(tel);
+        p.setEstado(true);
+        pasaData.modificarPasajero(p);
+        terminarManipulacion();
+    }//GEN-LAST:event_jbModificarActionPerformed
+
+    private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
+        int id;
+        id = Integer.parseInt(jtfId.getText());        
+        Pasajero p = new Pasajero();
+        p.setId_pasajero(id);
+        pasaData.EliminarPasajero(p);
+        terminarManipulacion();
+    }//GEN-LAST:event_jbBorrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -414,5 +491,22 @@ public class RegistroPasajeros extends javax.swing.JInternalFrame {
         for (int i = filas; i >= 0; i--) {
             modelo.removeRow(i);
         }
+    }
+    
+    private void terminarManipulacion() {
+        restaurarTabla();
+        jtfNombre.setEnabled(false);
+        jtfNombre.setText("");
+        jtfApellido.setEnabled(false);
+        jtfApellido.setText("");
+        jtfDni.setEnabled(false);
+        jtfDni.setText("");
+        jtfCorreo.setEnabled(false);
+        jtfCorreo.setText("");
+        jtfTelefono.setEnabled(false);
+        jtfTelefono.setText("");
+        jtfId.setText("");
+        jbModificar.setEnabled(false);
+        jbBorrar.setEnabled(false);
     }
 }
