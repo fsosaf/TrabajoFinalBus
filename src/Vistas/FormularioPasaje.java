@@ -251,37 +251,30 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
         }
         //validar ruta
 
-        //validar hora
+        //validar fecha y hora
+        try {
         if (validarHora()) {
             h = jtfHora.getText();
             min = jtfMin.getText();
             hora = Time.valueOf(h + ":" + min + ":00");
             ahora = LocalTime.now();
             horaLT = hora.toLocalTime();
-            if(horaLT.isBefore(ahora)){
-                JOptionPane.showMessageDialog(this, "Ingrese una hora posterior a la actual");
+            fecha = LocalDate.parse(ff.format(jCalendar.getCalendar().getTime()));  
+            hoy = LocalDate.now();            
+            if((horaLT.isBefore(ahora) && fecha.equals(hoy)) || (fecha.isBefore(hoy))){
+                JOptionPane.showMessageDialog(this, "Ingrese una hora y fecha posterior a la actual");
                 return;                
             }
         } else {
             return;
         }
-        //validar hora
-
-        //validar fecha
-        //¿CONTROL PARA DIAS IMPOSIBLES?
-        try {
-            fecha = LocalDate.parse(ff.format(jCalendar.getCalendar().getTime()));  
-            hoy = LocalDate.now();            
-            if(fecha.isBefore(hoy)){
-                JOptionPane.showMessageDialog(this, "Ingrese una fecha posterior al día de hoy");
-                return;
-            }
             asientosOcupados = pasaData.controlAsientos(fecha, hora, c, r);//asientos ocupados aca para inicializarlo
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Ingrese una fecha válida");
             return;
         }
-        //validar fecha
+        //validar fecha y hora
+        
 
         //validar asientos
         if (asientosOcupados.size() >= c.getCapacidad()) {
