@@ -43,6 +43,8 @@ public class Gestor extends javax.swing.JFrame {
         jmPapelera = new javax.swing.JMenu();
         jmiRecuperaRuta = new javax.swing.JMenuItem();
         jmiRecuperarPasajero = new javax.swing.JMenuItem();
+        jmiRecuperarColectivo = new javax.swing.JMenuItem();
+        jmiRecuperarHorario = new javax.swing.JMenuItem();
         jmSalir = new javax.swing.JMenu();
         jmiSalir = new javax.swing.JMenuItem();
 
@@ -166,6 +168,22 @@ public class Gestor extends javax.swing.JFrame {
             }
         });
         jmPapelera.add(jmiRecuperarPasajero);
+
+        jmiRecuperarColectivo.setText("Recuperar colectivo");
+        jmiRecuperarColectivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRecuperarColectivoActionPerformed(evt);
+            }
+        });
+        jmPapelera.add(jmiRecuperarColectivo);
+
+        jmiRecuperarHorario.setText("Recuperar horario");
+        jmiRecuperarHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRecuperarHorarioActionPerformed(evt);
+            }
+        });
+        jmPapelera.add(jmiRecuperarHorario);
 
         jmenubarra.add(jmPapelera);
 
@@ -302,6 +320,24 @@ public class Gestor extends javax.swing.JFrame {
         escritorio.moveToFront(rr);
     }//GEN-LAST:event_jmiRecuperarPasajeroActionPerformed
 
+    private void jmiRecuperarColectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRecuperarColectivoActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        RecuperaColectivo rr = new RecuperaColectivo();
+        rr.setVisible(true);
+        escritorio.add(rr);
+        escritorio.moveToFront(rr);
+    }//GEN-LAST:event_jmiRecuperarColectivoActionPerformed
+
+    private void jmiRecuperarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRecuperarHorarioActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        RecuperaHorario rr = new RecuperaHorario();
+        rr.setVisible(true);
+        escritorio.add(rr);
+        escritorio.moveToFront(rr);
+    }//GEN-LAST:event_jmiRecuperarHorarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -350,6 +386,8 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiInformepasajes;
     private javax.swing.JMenuItem jmiPasajero;
     private javax.swing.JMenuItem jmiRecuperaRuta;
+    private javax.swing.JMenuItem jmiRecuperarColectivo;
+    private javax.swing.JMenuItem jmiRecuperarHorario;
     private javax.swing.JMenuItem jmiRecuperarPasajero;
     private javax.swing.JMenuItem jmiRegistroColectivo;
     private javax.swing.JMenuItem jmiRegistroHorario;

@@ -93,9 +93,64 @@ public class ColectivoData {
         return colectivos;
     }
     
+    public List<Colectivo> listarColectivosBorrados() {
+        List<Colectivo> colectivos = new ArrayList<>();
+        String sql = "SELECT * FROM `colectivos` WHERE estado = 0";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Colectivo colectivo = new Colectivo();
+                colectivo.setId_colectivo(rs.getInt("id_colectivo"));
+                colectivo.setMarca(rs.getString("marca"));
+                colectivo.setModelo(rs.getString("modelo"));
+                colectivo.setMatricula(rs.getString("matricula"));
+                colectivo.setCapacidad(rs.getInt("capacidad"));
+                colectivo.setEstado(rs.getBoolean("estado"));
+                colectivos.add(colectivo);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla colectivos " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+
+        }
+        return colectivos;
+    }
+    
     public Colectivo buscarColectivoPorId(int id) {
         Colectivo colectivo = null;
         String sql = "SELECT  `matricula`, `marca`, `modelo`, `capacidad` FROM `colectivos` WHERE ID_colectivo = ? AND estado = 1";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                colectivo = new Colectivo();
+                colectivo.setId_colectivo(id);
+                colectivo.setMatricula(rs.getString("matricula"));
+                colectivo.setMarca(rs.getString("marca"));
+                colectivo.setModelo(rs.getString("modelo"));
+                colectivo.setCapacidad(rs.getInt("capacidad"));
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe colectivo.");
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla colectivos " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+
+        }
+        return colectivo;
+    }
+    
+    public Colectivo buscarColectivoPorIdBorrado(int id) {
+        Colectivo colectivo = null;
+        String sql = "SELECT  * FROM `colectivos` WHERE ID_colectivo = ? AND estado = 0";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
@@ -160,6 +215,25 @@ public class ColectivoData {
                 JOptionPane.showMessageDialog(null, "Colectivo Eliminado Con exito.");
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo eliminar el colectivo.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Colectivos " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+        }
+    }
+    
+    public void recuperarColectivo(int id) {
+        String sql = "UPDATE `colectivos` SET `estado`= 1 WHERE id_colectivo = ?";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int ok = ps.executeUpdate();
+            if (ok == 1) {
+                JOptionPane.showMessageDialog(null, "Colectivo recuperado Con exito.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo recuperar el colectivo.");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Colectivos " + e.getMessage());

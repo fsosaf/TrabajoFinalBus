@@ -127,6 +127,33 @@ public class HorarioData {
         return horarios;
     }
     
+    public List<Horario> buscarHorarioBorradoPorRuta(Ruta ruta){
+        List<Horario> horarios = new ArrayList<>();
+        String sql = "SELECT * FROM `horarios` WHERE id_ruta = ? AND estado = 0";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, ruta.getId_ruta());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Horario horario = new Horario();
+                horario.setId_horario(rs.getInt("id_horario"));
+                horario.setRuta(ruta);
+                horario.setHora_llegada(rs.getTime("hora_llegada"));
+                horario.setHora_salida(rs.getTime("hora_salida"));
+                horario.setEstado(rs.getBoolean("estado"));
+                horarios.add(horario);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Horarios " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+
+        }
+        return horarios;
+    }
+    
     public void modificarHorario(Horario horario){
         String sql = "UPDATE `horarios` SET hora_salida = ?, hora_llegada = ? WHERE id_horario = ?";
         PreparedStatement ps = null;
@@ -166,11 +193,58 @@ public class HorarioData {
             e.printStackTrace();
         }
     }
+    
+    public void recuperarHorario(int id){
+        String sql = "UPDATE `horarios` SET estado = 1 WHERE id_horario = ?";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int ok = ps.executeUpdate();
+            if (ok == 1) {
+                JOptionPane.showMessageDialog(null, "Horario recuperado Con exito.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo recuperar el horario.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Horarios " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+        }
+    }
 
     public List<Horario> listarHorarios() {
         List<Horario> horarios = new ArrayList<>();
         Ruta ruta;
         String sql = "SELECT * FROM `horarios` WHERE estado = 1";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Horario horario = new Horario();
+                horario.setId_horario(rs.getInt("id_horario"));
+                ruta = rutaData.buscarRutaPorId(rs.getInt("id_ruta"));
+                horario.setRuta(ruta);
+                horario.setHora_llegada(rs.getTime("hora_llegada"));
+                horario.setHora_salida(rs.getTime("hora_salida"));
+                horario.setEstado(rs.getBoolean("estado"));
+                horarios.add(horario);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Horarios " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+
+        }
+        return horarios;
+    }
+    
+    public List<Horario> listarHorariosBorrados() {
+        List<Horario> horarios = new ArrayList<>();
+        Ruta ruta;
+        String sql = "SELECT horarios.ID_horario, horarios.ID_ruta, horarios.hora_salida, horarios.hora_llegada, horarios.estado FROM horarios, rutas WHERE rutas.ID_ruta = horarios.ID_ruta AND horarios.estado = 0 AND rutas.estado = 1";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);

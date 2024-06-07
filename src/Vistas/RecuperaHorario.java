@@ -4,8 +4,10 @@
  */
 package Vistas;
 
-import AccesoADatos.ColectivoData;
-import Entidades.Colectivo;
+import AccesoADatos.HorarioData;
+import AccesoADatos.RutaData;
+import Entidades.Horario;
+import Entidades.Ruta;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,23 +16,27 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author PC
  */
-public class RecuperaColectivo extends javax.swing.JInternalFrame {
+public class RecuperaHorario extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form RecuperaColectivo
+     * Creates new form RecuperaHorario
      */
     private DefaultTableModel modelo = new DefaultTableModel() {
         public boolean isCellEditable(int fila, int columna) {
             return false;
         }
     };
-    ColectivoData coleData;
-    List<Colectivo> colectivos;
-    public RecuperaColectivo() {
+    HorarioData horaData;
+    RutaData rutaData;
+    List<Horario> horarios;
+    List<Ruta> rutas;
+    public RecuperaHorario() {
         initComponents();
-        coleData = new ColectivoData();
+        horaData = new HorarioData();
+        rutaData = new RutaData();
         armarCabecera();
         restaurarTabla();
+        cargarCombo();
     }
 
     /**
@@ -42,32 +48,13 @@ public class RecuperaColectivo extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jtfBuscarId = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtTabla = new javax.swing.JTable();
         jbRecuperar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jbRestaurar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtTabla = new javax.swing.JTable();
-        jbBuscarId = new javax.swing.JButton();
-
-        jbRecuperar.setText("Recuperar colectivo");
-        jbRecuperar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbRecuperarActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setBackground(new java.awt.Color(0, 3, 102));
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Colectivos eliminados");
-
-        jbRestaurar.setText("Restaurar");
-        jbRestaurar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbRestaurarActionPerformed(evt);
-            }
-        });
+        jbBuscarRuta = new javax.swing.JButton();
+        jcbBuscarRuta = new javax.swing.JComboBox<>();
 
         jtTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -82,10 +69,29 @@ public class RecuperaColectivo extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jtTabla);
 
-        jbBuscarId.setText("Buscar por ID");
-        jbBuscarId.addActionListener(new java.awt.event.ActionListener() {
+        jbRecuperar.setText("Recuperar horario");
+        jbRecuperar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBuscarIdActionPerformed(evt);
+                jbRecuperarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setBackground(new java.awt.Color(0, 3, 102));
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Horarios eliminados");
+
+        jbRestaurar.setText("Restaurar");
+        jbRestaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRestaurarActionPerformed(evt);
+            }
+        });
+
+        jbBuscarRuta.setText("Buscar por ruta");
+        jbBuscarRuta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarRutaActionPerformed(evt);
             }
         });
 
@@ -96,12 +102,12 @@ public class RecuperaColectivo extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbBuscarId)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtfBuscarId, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbBuscarRuta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbBuscarRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbRecuperar))
                     .addGroup(layout.createSequentialGroup()
@@ -120,10 +126,10 @@ public class RecuperaColectivo extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbBuscarId)
-                    .addComponent(jtfBuscarId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbRecuperar))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(jbRecuperar)
+                    .addComponent(jbBuscarRuta)
+                    .addComponent(jcbBuscarRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         pack();
@@ -134,7 +140,7 @@ public class RecuperaColectivo extends javax.swing.JInternalFrame {
         int fila = jtTabla.getSelectedRow();
         if (fila != -1) {
             id = (Integer) modelo.getValueAt(fila, 0);
-            coleData.recuperarColectivo(id);
+            horaData.recuperarHorario(id);
             restaurarTabla();
         }
     }//GEN-LAST:event_jbRecuperarActionPerformed
@@ -143,57 +149,64 @@ public class RecuperaColectivo extends javax.swing.JInternalFrame {
         restaurarTabla();
     }//GEN-LAST:event_jbRestaurarActionPerformed
 
-    private void jbBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarIdActionPerformed
-        if (jtfBuscarId.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Ingrese un ID para buscar");
+    private void jbBuscarRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarRutaActionPerformed
+        Ruta ruta;
+
+        //validar ruta
+        ruta = (Ruta) jcbBuscarRuta.getSelectedItem();
+        if (ruta == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar o registrar una ruta");
             return;
         }
-        if (!jtfBuscarId.getText().matches("^\\d+$")) {
-            JOptionPane.showMessageDialog(this, "Ingrese un ID valido(numero)");
-            return;
+        //validar ruta
+
+        horarios = horaData.buscarHorarioBorradoPorRuta(ruta);
+        borrarFilas();
+        for (Horario h : horarios) {
+            modelo.addRow(new Object[]{h.getId_horario(), h.getRuta().getOrigen(), h.getRuta().getDestino(), h.getHora_salida(), h.getHora_llegada(), h.getRuta().getId_ruta()});
         }
-        Colectivo c;
-        int id;
-        id = Integer.parseInt(jtfBuscarId.getText());
-        c = coleData.buscarColectivoPorIdBorrado(id);
-        if (c != null) {
-            borrarFilas();
-            modelo.addRow(new Object[]{c.getId_colectivo(),c.getMarca(),c.getModelo(),c.getMatricula(),c.getCapacidad()});
-        }
-    }//GEN-LAST:event_jbBuscarIdActionPerformed
+    }//GEN-LAST:event_jbBuscarRutaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbBuscarId;
+    private javax.swing.JButton jbBuscarRuta;
     private javax.swing.JButton jbRecuperar;
     private javax.swing.JButton jbRestaurar;
+    private javax.swing.JComboBox<Ruta> jcbBuscarRuta;
     private javax.swing.JTable jtTabla;
-    private javax.swing.JTextField jtfBuscarId;
     // End of variables declaration//GEN-END:variables
-
-    private void restaurarTabla() {
-        borrarFilas();
-        colectivos = coleData.listarColectivosBorrados();
-        for (Colectivo c : colectivos) {
-            modelo.addRow(new Object[]{c.getId_colectivo(),c.getMarca(),c.getModelo(),c.getMatricula(),c.getCapacidad()});
-        }
-    }
 
     private void armarCabecera() {
         modelo.addColumn("ID");
-        modelo.addColumn("Marca");
-        modelo.addColumn("Modelo");
-        modelo.addColumn("Matricula");
-        modelo.addColumn("Capacidad");
+        modelo.addColumn("Origen");
+        modelo.addColumn("Destino");
+        modelo.addColumn("Hora de salida");
+        modelo.addColumn("Hora de llegada");
+        modelo.addColumn("ID RUTA");
         jtTabla.setModel(modelo);
+    }
+
+    private void restaurarTabla() {
+        borrarFilas();
+        horarios = horaData.listarHorariosBorrados();
+        for (Horario h : horarios) {
+            modelo.addRow(new Object[]{h.getId_horario(), h.getRuta().getOrigen(), h.getRuta().getDestino(), h.getHora_salida(), h.getHora_llegada(), h.getRuta().getId_ruta()});
+        }
     }
 
     private void borrarFilas() {
         int filas = modelo.getRowCount() - 1;
         for (int i = filas; i >= 0; i--) {
             modelo.removeRow(i);
+        }
+    }
+    
+    private void cargarCombo() {
+        rutas = rutaData.listarRutas();
+        for (Ruta r : rutas) {
+            jcbBuscarRuta.addItem(r);
         }
     }
 
