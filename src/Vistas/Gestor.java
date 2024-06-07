@@ -40,6 +40,9 @@ public class Gestor extends javax.swing.JFrame {
         jmiRegistroHorario = new javax.swing.JMenuItem();
         jmiRegistroRutas = new javax.swing.JMenuItem();
         jmiInformepasajes = new javax.swing.JMenuItem();
+        jmPapelera = new javax.swing.JMenu();
+        jmiRecuperaRuta = new javax.swing.JMenuItem();
+        jmiRecuperarPasajero = new javax.swing.JMenuItem();
         jmSalir = new javax.swing.JMenu();
         jmiSalir = new javax.swing.JMenuItem();
 
@@ -145,6 +148,26 @@ public class Gestor extends javax.swing.JFrame {
         jmConsultas.add(jmiInformepasajes);
 
         jmenubarra.add(jmConsultas);
+
+        jmPapelera.setText("Papelera");
+
+        jmiRecuperaRuta.setText("Recuperar ruta");
+        jmiRecuperaRuta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRecuperaRutaActionPerformed(evt);
+            }
+        });
+        jmPapelera.add(jmiRecuperaRuta);
+
+        jmiRecuperarPasajero.setText("Recuperar pasajero");
+        jmiRecuperarPasajero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRecuperarPasajeroActionPerformed(evt);
+            }
+        });
+        jmPapelera.add(jmiRecuperarPasajero);
+
+        jmenubarra.add(jmPapelera);
 
         jmSalir.setText("Salir");
 
@@ -261,6 +284,24 @@ public class Gestor extends javax.swing.JFrame {
         escritorio.moveToFront(rr);
     }//GEN-LAST:event_jmiRegistroRutasActionPerformed
 
+    private void jmiRecuperaRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRecuperaRutaActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        RecuperaRuta rr = new RecuperaRuta();
+        rr.setVisible(true);
+        escritorio.add(rr);
+        escritorio.moveToFront(rr);
+    }//GEN-LAST:event_jmiRecuperaRutaActionPerformed
+
+    private void jmiRecuperarPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRecuperarPasajeroActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        RecuperaPasajero rr = new RecuperaPasajero();
+        rr.setVisible(true);
+        escritorio.add(rr);
+        escritorio.moveToFront(rr);
+    }//GEN-LAST:event_jmiRecuperarPasajeroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -300,6 +341,7 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenu jmAdministracion;
     private javax.swing.JMenu jmConsultas;
+    private javax.swing.JMenu jmPapelera;
     private javax.swing.JMenu jmSalir;
     private javax.swing.JMenu jmVenta;
     private javax.swing.JMenuBar jmenubarra;
@@ -307,6 +349,8 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiFormularioruta;
     private javax.swing.JMenuItem jmiInformepasajes;
     private javax.swing.JMenuItem jmiPasajero;
+    private javax.swing.JMenuItem jmiRecuperaRuta;
+    private javax.swing.JMenuItem jmiRecuperarPasajero;
     private javax.swing.JMenuItem jmiRegistroColectivo;
     private javax.swing.JMenuItem jmiRegistroHorario;
     private javax.swing.JMenuItem jmiRegistroRutas;

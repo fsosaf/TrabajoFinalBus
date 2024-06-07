@@ -97,6 +97,29 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="jmPapelera">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Papelera"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiRecuperaRuta">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Recuperar ruta"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiRecuperaRutaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiRecuperarPasajero">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Recuperar pasajero"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiRecuperarPasajeroActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="jmSalir">
           <Properties>
             <Property name="text" type="java.lang.String" value="Salir"/>

@@ -73,6 +73,36 @@ public class PasajeroData {
         }
         return pasajero;
     }
+    
+    public Pasajero buscarPasajeroPorIdBorrado(int id_pasajero) {
+        Pasajero pasajero = null;
+        String sql = "SELECT  * FROM `pasajeros` WHERE ID_pasajero = ? AND estado = 0";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id_pasajero);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                pasajero = new Pasajero();
+                pasajero.setId_pasajero(id_pasajero);
+                pasajero.setNombre(rs.getString("nombre"));
+                pasajero.setApellido(rs.getString("apellido"));
+                pasajero.setDni(rs.getString("dni"));
+                pasajero.setCorreo(rs.getString("correo"));
+                pasajero.setTelefono(rs.getString("telefono"));
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe Pasajero.");
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Pasajero " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+
+        }
+        return pasajero;
+    }
 
     public Pasajero buscarPasajeroPorDni(String dni) {
         Pasajero pasajero = null;
@@ -182,6 +212,32 @@ public class PasajeroData {
         }
         return pasajeros;
     }
+    
+    public List<Pasajero> listarPasajerosBorrados() {
+        List<Pasajero> pasajeros = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM `pasajeros` WHERE estado = 0";
+            PreparedStatement ps;
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pasajero pasajero = new Pasajero();
+                pasajero.setId_pasajero(rs.getInt("id_pasajero"));
+                pasajero.setNombre(rs.getString("nombre"));
+                pasajero.setApellido(rs.getString("apellido"));
+                pasajero.setDni(rs.getString("dni"));
+                pasajero.setCorreo(rs.getString("correo"));
+                pasajero.setTelefono(rs.getString("telefono"));
+                pasajeros.add(pasajero);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Pasajero " + ex.getMessage());
+            System.out.println(ex.getErrorCode());
+            ex.printStackTrace();
+        }
+        return pasajeros;
+    }
 
     public void EliminarPasajero(Pasajero p) {
         String sql = "UPDATE `pasajeros` SET `estado`= 0 WHERE id_pasajero = ?";
@@ -194,6 +250,26 @@ public class PasajeroData {
                 JOptionPane.showMessageDialog(null, "Pasajero Eliminado Con exito.");
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo eliminar el pasajero.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Pasajeros " + e.getMessage());
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+        }
+
+    }
+    
+    public void RecuperarPasajero(int id) {
+        String sql = "UPDATE `pasajeros` SET `estado`= 1 WHERE id_pasajero = ?";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int ok = ps.executeUpdate();
+            if (ok == 1) {
+                JOptionPane.showMessageDialog(null, "Pasajero recuperado con exito.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo recuperar el pasajero.");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Pasajeros " + e.getMessage());

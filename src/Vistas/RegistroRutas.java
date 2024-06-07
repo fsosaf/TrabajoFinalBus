@@ -339,12 +339,12 @@ public class RegistroRutas extends javax.swing.JInternalFrame {
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
         Ruta ruta = new Ruta();
-        
-        if(jtfOrigen.getText().equals("") || jtfDestino.getText().equals("")){
+
+        if (jtfOrigen.getText().equals("") || jtfDestino.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Ingrese un origen y un destino para modificar");
             return;
         }
-        
+
         ruta.setOrigen(jtfOrigen.getText());
         ruta.setDestino(jtfDestino.getText());
         ruta.setDuracion_estimada(Time.valueOf(jtfDuracion.getText()));
@@ -355,13 +355,17 @@ public class RegistroRutas extends javax.swing.JInternalFrame {
 
     private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
         Ruta ruta = rutaData.buscarRutaPorId(Integer.parseInt(jtfId.getText()));
-        
+        int c = 0;
+
         horarios = horaData.buscarHorarioPorRuta(ruta);
-        for(Horario h : horarios){
+        for (Horario h : horarios) {
             horaData.eliminarHorario(h);
+            c++;
         }
-        JOptionPane.showMessageDialog(this, "Todos los horarios ligados a la ruta a borrar han sido eliminados exitosamente");
-        
+        if (c != 0) {
+            JOptionPane.showMessageDialog(this, "Todos los horarios ligados a la ruta a borrar han sido eliminados exitosamente");
+        }
+
         rutaData.eliminarRuta(ruta);
         terminarManipulacion();
     }//GEN-LAST:event_jbBorrarActionPerformed
