@@ -38,6 +38,7 @@ public class Gestor extends javax.swing.JFrame {
         jmiRegistropasajeros = new javax.swing.JMenuItem();
         jmiRegistroColectivo = new javax.swing.JMenuItem();
         jmiRegistroHorario = new javax.swing.JMenuItem();
+        jmiRegistroRutas = new javax.swing.JMenuItem();
         jmiInformepasajes = new javax.swing.JMenuItem();
         jmSalir = new javax.swing.JMenu();
         jmiSalir = new javax.swing.JMenuItem();
@@ -126,6 +127,14 @@ public class Gestor extends javax.swing.JFrame {
             }
         });
         jmConsultas.add(jmiRegistroHorario);
+
+        jmiRegistroRutas.setText("Registro de rutas");
+        jmiRegistroRutas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRegistroRutasActionPerformed(evt);
+            }
+        });
+        jmConsultas.add(jmiRegistroRutas);
 
         jmiInformepasajes.setText("Historial de ventas");
         jmiInformepasajes.addActionListener(new java.awt.event.ActionListener() {
@@ -243,6 +252,15 @@ public class Gestor extends javax.swing.JFrame {
         escritorio.moveToFront(rh);
     }//GEN-LAST:event_jmiRegistroHorarioActionPerformed
 
+    private void jmiRegistroRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRegistroRutasActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        RegistroRutas rr = new RegistroRutas();
+        rr.setVisible(true);
+        escritorio.add(rr);
+        escritorio.moveToFront(rr);
+    }//GEN-LAST:event_jmiRegistroRutasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -291,6 +309,7 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiPasajero;
     private javax.swing.JMenuItem jmiRegistroColectivo;
     private javax.swing.JMenuItem jmiRegistroHorario;
+    private javax.swing.JMenuItem jmiRegistroRutas;
     private javax.swing.JMenuItem jmiRegistropasajeros;
     private javax.swing.JMenuItem jmiSalir;
     private javax.swing.JMenuItem jmiVenderpasaje;

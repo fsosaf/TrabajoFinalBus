@@ -102,7 +102,7 @@ public class HorarioData {
     
     public List<Horario> buscarHorarioPorRuta(Ruta ruta){
         List<Horario> horarios = new ArrayList<>();
-        String sql = "SELECT id_horario, id_ruta, hora_salida, hora_llegada, estado FROM `horarios` WHERE id_ruta = ? AND estado = 1";
+        String sql = "SELECT * FROM `horarios` WHERE id_ruta = ? AND estado = 1";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(sql);
