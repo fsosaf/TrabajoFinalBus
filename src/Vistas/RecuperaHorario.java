@@ -56,6 +56,8 @@ public class RecuperaHorario extends javax.swing.JInternalFrame {
         jbBuscarRuta = new javax.swing.JButton();
         jcbBuscarRuta = new javax.swing.JComboBox<>();
 
+        setClosable(true);
+
         jtTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
