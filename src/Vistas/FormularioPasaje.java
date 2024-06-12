@@ -316,6 +316,7 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
         jtfMin.setText("");
         jtfAsiento.setText("");
         jtfPrecio.setText("");
+        
     }//GEN-LAST:event_jbVenderpasajeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

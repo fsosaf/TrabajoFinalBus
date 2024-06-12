@@ -30,6 +30,7 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
     private HorarioData horaData;
     List<Ruta> rutas;
 
+    
     public FormularioRuta() {
         initComponents();
         rutaData = new RutaData();

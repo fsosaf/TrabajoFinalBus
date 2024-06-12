@@ -191,6 +191,7 @@ public class FormularioPasajero extends javax.swing.JInternalFrame {
                 return;
             }
         }
+        
         jtfApellido.setText("");
         jtfDni.setText("");
         jtfNombre.setText("");

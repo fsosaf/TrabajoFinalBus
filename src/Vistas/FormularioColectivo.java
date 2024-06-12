@@ -177,6 +177,7 @@ public class FormularioColectivo extends javax.swing.JInternalFrame {
         //matricula repetida
         
         jtfMarca.setText("");
+        
         jtfMatricula.setText("");
         jtfModelo.setText("");
         
