@@ -50,6 +50,8 @@ public class RecuperaColectivo extends javax.swing.JInternalFrame {
         jtTabla = new javax.swing.JTable();
         jbBuscarId = new javax.swing.JButton();
 
+        setClosable(true);
+
         jbRecuperar.setText("Recuperar colectivo");
         jbRecuperar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
