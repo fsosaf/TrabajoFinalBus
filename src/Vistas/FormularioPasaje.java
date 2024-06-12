@@ -33,7 +33,7 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
     private List<Pasajero> pasajeros;
     private List<Colectivo> colectivos;
     private List<Ruta> rutas;
-    private final String expRegHora = "^(0?[1-9]|1[0-9]|2[0-3])$";
+    private final String expRegHora = "^(0?[0-9]|1[0-9]|2[0-3])$";//<<<<<<<<<<<<15:45
     private final String expRegMin = "^(0?[1-9]|[0-5][0-9])$";
     private final String expRegNum = "^[1-9]+\\d*$";
 
@@ -311,6 +311,11 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
         //creo el pasaje
                 
         pasaData.GuardarPasaje(pasaje);
+        
+        jtfHora.setText("");
+        jtfMin.setText("");
+        jtfAsiento.setText("");
+        jtfPrecio.setText("");
     }//GEN-LAST:event_jbVenderpasajeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -356,7 +361,7 @@ public class FormularioPasaje extends javax.swing.JInternalFrame {
             return false;
         }
         if (!jtfHora.getText().matches(expRegHora)) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar una hora válida (1-23).");
+            JOptionPane.showMessageDialog(this, "Debe ingresar una hora válida (0-23).");
             return false;
         }
         if (!jtfMin.getText().matches(expRegMin)) {

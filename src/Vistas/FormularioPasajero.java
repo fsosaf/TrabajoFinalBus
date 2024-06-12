@@ -191,6 +191,11 @@ public class FormularioPasajero extends javax.swing.JInternalFrame {
                 return;
             }
         }
+        jtfApellido.setText("");
+        jtfDni.setText("");
+        jtfNombre.setText("");
+        jtfTelefono.setText("");
+        jtfCorreo.setText("");
         //dni/correo repetido
         
         pasajero.setNombre(nombre);

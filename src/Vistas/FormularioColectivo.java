@@ -176,6 +176,10 @@ public class FormularioColectivo extends javax.swing.JInternalFrame {
         }
         //matricula repetida
         
+        jtfMarca.setText("");
+        jtfMatricula.setText("");
+        jtfModelo.setText("");
+        
         colectivo = new Colectivo();
         colectivo.setMarca(marca);
         colectivo.setModelo(modelo);

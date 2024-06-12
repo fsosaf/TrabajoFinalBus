@@ -24,7 +24,7 @@ public class FormularioRuta extends javax.swing.JInternalFrame {
     /**
      * Creates new form FormularioHorario
      */
-    private final String expRegHora = "^(0?[1-9]|1[0-9]|2[0-3])$";
+    private final String expRegHora = "^(0?[0-9]|1[0-9]|2[0-3])$";
     private final String expRegMin = "^(0?[1-9]|[0-5][0-9])$";
     private RutaData rutaData;
     private HorarioData horaData;
